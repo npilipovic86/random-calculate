@@ -1,20 +1,20 @@
 <template>
   <div class="container">
-    <p>This is random calculate application</p>
+    <p class="name">Random calculate</p>
     <div class="nav">
       <router-link class='nav-link' :to="{ path: '/' }">Home</router-link>
       <router-link class='nav-link' :to="{ path: 'statistic' }">Statistic</router-link>
     </div>
-    <span></span>
-
-
+    <div class="git">
+      <a class="git-icon" href="https://github.com/npilipovic86/random-calculate" target="_blank" data-placement="left" data-toggle="tooltip" title="Github"><img src="https://img.icons8.com/ios-filled/40/000000/github.png"  alt=""></a>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
+  // class Header extends Vue
 
-
-export default  {
+  export default {
   name: 'Header'
 
 }
@@ -28,24 +28,41 @@ export default  {
     top: 0;
     height: 50px;
     width:100%;
-    background: blueviolet;
+    background: #6785e2;
     display: flex;
     /*padding: 5px;*/
+    color:black;
   }
-  p , span {
+ .name , .git {
     flex: 1;
   }
-  p {
+
+  .name  {
     margin-left: 5px;
     color: white;
+    color:black;
   }
-
+  .git {
+    text-align: right;
+    &-icon {
+      /*margin: auto;*/
+      img {
+        /*margin-right: auto;*/
+        padding: 5px;
+      }
+    }
+  }
   .nav {
     margin: auto;
     &-link {
       margin: 5px;
       color: white;
+      color:black;
     }
   }
-
+  @media screen and (max-width:600px) {
+    .name {
+      visibility: hidden;
+    }
+  }
 </style>

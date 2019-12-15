@@ -2,9 +2,7 @@
   <div id="app">
     <Header/>
     <transition>
-      <!--<keep-alive>-->
         <router-view></router-view>
-      <!--</keep-alive>-->
     </transition>
   </div>
 </template>
@@ -29,8 +27,10 @@ export default class App extends Vue {}
 <style lang="scss">
 
   html, body {
+    overflow: hidden;
     margin: 0;
-    background: cornflowerblue;
+    /*color:white;*/
+    background: linear-gradient(90deg, #3F2B96 0%, #798ab9 50%, #3F2B96 100%);
     /*height: calc(100% - 30px);*/
   }
 #app {
@@ -40,4 +40,9 @@ export default class App extends Vue {}
   margin-top: 60px;
   text-align: center;
 }
+  @media screen and (max-width:600px) {
+    html, body  {
+      overflow: auto;
+    }
+  }
 </style>

@@ -13,7 +13,11 @@
       <tr v-for="(item, index) in items" :key="index">
         <td>{{ item.key }}</td>
         <td>{{ item.value }}</td>
-        <td>{{ item.operation }}</td>
+        <!--<td>{{ item.operation }}</td>-->
+        <td class="arrow">
+          <span class="arrow-down" :class="{ 'arrow-show': item.operation === '-', 'arrow-hide': item.operation === '+' }">&#129095;</span>
+          <span class="arrow-top" :class="{ 'arrow-show': item.operation === '+', 'arrow-hide': item.operation === '-' }">&#129093;</span>
+        </td>
         <td>
           <div class="button" :class="{ paused: item.active }" @click="toggleActive(index)"></div>
         </td>
@@ -51,10 +55,10 @@ export default {
   },
   // mounted() { },
   methods: {
-   init() {
-     const lsItems: Item[] = JSON.parse(localStorage.getItem('items')) || null
-     if (lsItems) {
-       this.items = lsItems
+   init(): void {
+     const itemsBackup: Item[] = JSON.parse(localStorage.getItem('items')) || false
+     if (itemsBackup) {
+       this.items = itemsBackup
      }
     },
     toggleActive(index: number): void {
@@ -62,13 +66,14 @@ export default {
       this.items[index].active ? this.items[index].active = false : this.items[index].active = true
     },
     getRandomInteger(min: number, max: number): number {
-      const randomNum: number = Math.floor(Math.random() * (max - min + 1)) + min
-      if (randomNum === 0) {
+      const randomNumber: number = Math.round( Math.random() * (max - min) + min )
+      // const randomNumber: number = Math.floor(Math.random() * (max - min + 1)) + min
+      if (randomNumber === 0) {
         return this.getRandomInteger(-2, 2)
       }
-      return randomNum
+      return randomNumber
     },
-    updateValue(array: Item[]) {
+    updateValue(array: Item[]): void {
       array.map( (item)  => {
         if (item !== undefined && item.active) {
           const num: number = this.getRandomInteger(-2, 2)
@@ -86,6 +91,33 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+  .arrow {
+    font-size:35px;
+
+
+    &-top {
+      transition: all 5s ease;
+      transition-delay: 2s;
+      display:none;
+      span {
+        content: "\1F845";
+      }
+    }
+    &-down {
+      transition: all 5s ease;
+      transition-delay: 2s;
+      display:none;
+      span {
+        content: "\1F847";
+      }
+    }
+    &-show {
+      display:block;
+    }
+    &-hide {
+      display:none
+    }
+  }
   .button {
     $height: 35px;
     $left: $height - 10px;
@@ -114,15 +146,23 @@ export default {
   .container {
     text-align: center;
     display:flex;
+    /*margin: 1em;*/
+    padding-top: 2em;
   }
   table {
     margin:  auto;
+    margin-bottom: 10px;
   }
   th, td {
-    padding: 15px;
+    padding: 10px;
+
+  }
+  td {
+    font-size: 20px;
   }
   table, th, td {
-    border: 1px solid black;
+    border: 1px solid ;
     border-collapse: collapse;
   }
+
 </style>
