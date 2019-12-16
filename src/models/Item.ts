@@ -3,4 +3,6 @@ export interface Item {
     value?: number
     active?: boolean
     operation?: string
+    valueList?: number[]
+    interval?: number[]
 }

@@ -4,4 +4,5 @@ declare module '*.vue' {
   export default Vue;
 
 }
-declare module 'chart.js';
+declare module 'chart.js'
+declare module 'vuejs-dialog'
