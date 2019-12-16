@@ -5,49 +5,84 @@
   </div>
 </template>
 <script lang="ts">
-import Chart from '@/components/Chart'
-import {Item} from '@/models/Item';
+import Chart from '@/components/Chart.vue'
+import { Item } from '@/models/Item';
+import { Component, Vue } from 'vue-property-decorator';
 
-export default {
+@Component({
+    components: {
+      Chart
+    }
+})
+export default class Statistic extends Vue {
+    items: Item[]
+    labels: number[]
 
-    name: 'Statistic',
-    components: { Chart },
-    data() {
-      return {
-        items: [] as Item[],
-        labels: [] as string[],
+    constructor() {
+      super()
+    }
 
-      }
-    },
-    // mounted() {
-    //   // const ctx = this.$refs['myChart']
-    //   // console.log(ctx)
-    // },
     created() {
       this.init()
-    },
-    methods: {
-      init() {
-        this.items = JSON.parse(localStorage.getItem('items'))
-        if (this.items) {
-          this.labels = this.getBiggestIntervalArray(this.items)
-        }
-      },
-      getBiggestIntervalArray(array: Item[]) {
-        let max: number = 0
-        let maxArray: number[] = []
-        array.forEach((item: Item) => {
-          if (item.interval.length > max) {
-            max = item.interval.length
-            maxArray = item.interval
-          } else if (item.interval.length === max) {
-            maxArray = item.interval
-          }
-        })
-        return maxArray
+    }
+
+    init() {
+      this.items = JSON.parse(localStorage.getItem('items'))
+      if (this.items) {
+        this.labels = this.getBiggestIntervalArray(this.items)
       }
     }
-  }
+    getBiggestIntervalArray(array: Item[]): number[] {
+      let max: number = 0
+      let maxArray: number[] = []
+      array.forEach((item: Item) => {
+        if (item.interval.length > max) {
+          max = item.interval.length
+          maxArray = item.interval
+        } else if (item.interval.length === max) {
+          maxArray = item.interval
+        }
+      })
+      return maxArray
+    }
+}
+
+// export default {
+//
+//   name: 'Statistic',
+//   components: { Chart },
+//   data() {
+//     return {
+//       items: [] as Item[],
+//       labels: [] as number[],
+//
+//     }
+//   },
+//   created() {
+//     this.init()
+//   },
+//   methods: {
+//     init() {
+//       this.items = JSON.parse(localStorage.getItem('items'))
+//       if (this.items) {
+//         this.labels = this.getBiggestIntervalArray(this.items)
+//       }
+//     },
+//     getBiggestIntervalArray(array: Item[]) {
+//       let max: number = 0
+//       let maxArray: number[] = []
+//       array.forEach((item: Item) => {
+//         if (item.interval.length > max) {
+//           max = item.interval.length
+//           maxArray = item.interval
+//         } else if (item.interval.length === max) {
+//           maxArray = item.interval
+//         }
+//       })
+//       return maxArray
+//     }
+//   }
+// }
 </script>
 <style scoped lang="scss">
   Chart {

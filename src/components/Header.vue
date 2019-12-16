@@ -4,7 +4,7 @@
     <div class="nav">
       <router-link class='nav-link' :to="{ path: '/' }">Home</router-link>
       <router-link class='nav-link' :to="{ path: 'statistic' }">Statistic</router-link>
-      <a class='nav-link' @click="reset()" href="#">Reset values</a>
+      <a class='nav-link' @click="reset()" href="#">Reset</a>
     </div>
     <div class="git">
       <a class="git-icon" href="https://github.com/npilipovic86/random-calculate" target="_blank" data-placement="left" data-toggle="tooltip" title="Github"><img src="https://img.icons8.com/ios-filled/40/000000/github.png"  alt=""></a>
@@ -13,18 +13,33 @@
 </template>
 
 <script lang="ts">
-  import { EventBus } from '@/services/EventBus'
-  export default {
-  name: 'Header',
-    methods: {
-      reset() {
-        this.$dialog.confirm('Do you want to reset values ?').then( () => {
-                  localStorage.removeItem('items')
-                  this.$route.name === 'statistic' ? this.$router.push('/').then() : EventBus.$emit('reset')
-                }).catch(() => {})
-      }
+import { EventBus } from '@/services/EventBus'
+import { Component, Vue } from 'vue-property-decorator';
+
+@Component
+export default class Header extends Vue {
+    private $dialog: any;
+    constructor() {
+      super()
+    }
+    reset() {
+      this.$dialog.confirm('Do you want to reset values ?').then( () => {
+        localStorage.removeItem('items')
+        this.$route.name === 'statistic' ? this.$router.push('/').then() : EventBus.$emit('reset')
+      }).catch(() => { console.log('Clicked on cancel') })
     }
 }
+//   export default {
+//   name: 'Header',
+//     methods: {
+//       reset() {
+//         this.$dialog.confirm('Do you want to reset values ?').then( () => {
+//                   localStorage.removeItem('items')
+//                   this.$route.name === 'statistic' ? this.$router.push('/').then() : EventBus.$emit('reset')
+//                 }).catch(() => {})
+//       }
+//     }
+// }
 </script>
 
 <style scoped lang="scss">

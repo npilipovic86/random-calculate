@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header v-if="!loading" />
-    <Socket class="loader" v-if="loading" />
+    <Socket class="loader" v-if="loading" size="60" />
     <transition  name="fade" mode="out-in" v-if="!loading" >
         <router-view></router-view>
     </transition>
@@ -24,38 +24,20 @@ import Socket from 'vue-loading-spinner/src/components/Socket'
   }
 })
 export default class App extends Vue {
-  private loading: boolean;
+  loading: boolean
 
   constructor() {
     super()
     this.loading = true
-
   }
-    beforeCreate() {
-    console.log('beforeCreate')
-  }
-     created() {
-    console.log('created')
-  }
-   mounted() {
-     console.log('mounted')
+  mounted() {
     this.loader()
   }
-  updated () { console.log('updated',this.$route) }
-
-
-  loader(){
+  loader() {
     setTimeout(() => { this.loading = false   }, 2000)
   }
-
-
-  beforeDestroy() {
-    console.log('beforeDestroy')
-  }
-  destroyed () { console.log('Destroy') }
 }
 </script>
-
 <style lang="scss">
   html, body {
     overflow: hidden;
@@ -100,7 +82,6 @@ export default class App extends Vue {
     transition-property: opacity;
     transition-timing-function: ease;
   }
-
   .fade-enter,
   .fade-leave-active {
     opacity: 0
