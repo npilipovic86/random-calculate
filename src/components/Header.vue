@@ -18,28 +18,19 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class Header extends Vue {
-    private $dialog: any;
-    constructor() {
-      super()
-    }
-    reset() {
-      this.$dialog.confirm('Do you want to reset values ?').then( () => {
-        localStorage.removeItem('items')
-        this.$route.name === 'statistic' ? this.$router.push('/').then() : EventBus.$emit('reset')
-      }).catch(() => { console.log('Clicked on cancel') })
-    }
+  private $dialog: any;
+
+  constructor() {
+    super()
+  }
+
+  reset() {
+    this.$dialog.confirm('Do you want to reset values ?').then( () => {
+      localStorage.removeItem('items')
+      this.$route.name === 'statistic' ? this.$router.push('/').then() : EventBus.$emit('reset')
+    }).catch(() => { console.log('cancel') })
+  }
 }
-//   export default {
-//   name: 'Header',
-//     methods: {
-//       reset() {
-//         this.$dialog.confirm('Do you want to reset values ?').then( () => {
-//                   localStorage.removeItem('items')
-//                   this.$route.name === 'statistic' ? this.$router.push('/').then() : EventBus.$emit('reset')
-//                 }).catch(() => {})
-//       }
-//     }
-// }
 </script>
 
 <style scoped lang="scss">
