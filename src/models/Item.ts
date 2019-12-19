@@ -4,5 +4,4 @@ export interface Item {
     active?: boolean
     operation?: string
     valueList?: number[]
-    interval?: number[]
 }

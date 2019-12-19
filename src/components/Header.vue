@@ -1,78 +1,84 @@
 <template>
   <div class="container">
-    <p class="name">Random calculate</p>
     <div class="nav">
-      <router-link class='nav-link' :to="{ path: '/' }">Home</router-link>
-      <router-link class='nav-link' :to="{ path: 'statistic' }">Statistic</router-link>
-      <a class='nav-link' @click="reset()" href="#">Reset</a>
-    </div>
-    <div class="git">
-      <a class="git-icon" href="https://github.com/npilipovic86/random-calculate" target="_blank" data-placement="left" data-toggle="tooltip" title="Github"><img src="https://img.icons8.com/ios-filled/40/000000/github.png"  alt=""></a>
+      <router-link class="nav-link" :to="{ path: '/' }">
+        <img src="@/assets/house.svg" data-toggle="tooltip" title="Home page" alt="" />
+      </router-link>
+      <router-link class="nav-link" :to="{ path: 'statistic' }">
+        <img src="@/assets/statistics.svg" data-toggle="tooltip" title="Chart statistic" alt="" />
+      </router-link>
+      <a
+        class="nav-link"
+        href="https://github.com/npilipovic86/random-calculate"
+        target="_blank"
+        data-placement="right"
+        data-toggle="tooltip"
+        title="Github"
+      >
+        <img src="@/assets/github.svg" alt="" />
+      </a>
+       <a class="nav-link" @click="reset()" >
+        <img src="@/assets/reset.svg" data-toggle="tooltip" title="Reset values" alt="" />
+      </a>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { EventBus } from '@/services/EventBus'
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 
 @Component
 export default class Header extends Vue {
-  private $dialog: any;
+  private $dialog: any
 
   constructor() {
     super()
   }
 
   reset() {
-    this.$dialog.confirm('Do you want to reset values ?').then( () => {
-      localStorage.removeItem('items')
-      this.$route.name === 'statistic' ? this.$router.push('/').then() : EventBus.$emit('reset')
-    }).catch(() => { console.log('cancel') })
+    this.$dialog.confirm('Do you want to reset values ?')
+      .then(() => {
+        localStorage.removeItem('items')
+        localStorage.removeItem('interval')
+        this.$route.name === 'statistic' ? this.$router.push('/').then() : EventBus.$emit('reset')
+      })
+      .catch(() => {
+        console.log('cancel')
+      })
   }
 }
 </script>
 
 <style scoped lang="scss">
-  .container {
-    text-align: left;
-    position: absolute;
-    top: 0;
-    height: 50px;
-    width:100%;
-    background: #6785e2;
-    display: flex;
-    /*padding: 5px;*/
-    color:black;
-  }
- .name , .git {
-    flex: 1;
-  }
+.container {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+}
+.nav {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  &-link {
+    // width: 50px;
+    margin: 0 7px;
+    text-align: center;
+    img {
+      transition: all 0.5s 0.25s;
+      margin: auto;
+      vertical-align: middle;
+      height: 37px;
+      cursor: pointer;
+    }
+    img:hover {
+      height: 45px;
+    }
+}
+}
 
-  .name  {
-    margin-left: 5px;
-    color: white;
-    color:black;
-  }
-  .git {
-    text-align: right;
-    &-icon {
-      img {
-        padding: 5px;
-      }
-    }
-  }
-  .nav {
-    margin: auto;
-    &-link {
-      margin: 5px;
-      color: white;
-      color:black;
-    }
-  }
-  @media screen and (max-width:600px) {
-    .name {
-      visibility: hidden;
-    }
-  }
 </style>
