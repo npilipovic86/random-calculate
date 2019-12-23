@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="statistic-wrapper" :style="[ (theme === 'dark') ? {  background: '#0b1055' } : { background: 'bisque' } ]">
     <Chart
       :key="componentKey"
       v-if="items.length > 0 && labels.length > 0"
@@ -17,6 +17,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import Socket from 'vue-loading-spinner/src/components/Socket'
 import { ChartData } from '@/models/ChartData'
 import { ChartOption } from '@/models/ChartOption'
+import { EventBus } from '@/services/EventBus'
 
 @Component({
   components: {
@@ -31,6 +32,7 @@ export default class Statistic extends Vue {
   private componentKey: number
   private chartData: ChartData
   private chartOptions: ChartOption
+  private theme: string
 
   constructor() {
     super()
@@ -38,12 +40,17 @@ export default class Statistic extends Vue {
     this.items = []
     this.height = 0
     this.componentKey = 0
+    this.theme = 'dark'
   }
 
   created() {
-    this.init();
-    this.handleResize();
+    this.init()
+    this.handleResize()
     window.addEventListener('resize', this.handleResize)
+  }
+  mounted() {
+    EventBus.$on('toggleTheme', (theme: string) =>  this.theme = theme)
+    this.theme = localStorage.getItem('theme') || 'dark'
   }
 
   @Watch('height', { immediate: true })
@@ -62,80 +69,92 @@ export default class Statistic extends Vue {
   init() {
     this.items = JSON.parse(localStorage.getItem('items')) || []
     this.labels = JSON.parse(localStorage.getItem('interval')) || []
-    this.chartData =  {
-        labels: this.labels,
-        datasets: [
-          {
-            borderColor: 'red',
-            label: this.items[0].key,
-            backgroundColor: 'red',
-            data: this.items[0].valueList
-          },
-          {
-            borderColor: 'orange',
-            label: this.items[1].key,
-            backgroundColor: 'orange',
-            data: this.items[1].valueList
-          },
-          {
-            borderColor: 'blue',
-            label: this.items[2].key,
-            backgroundColor: 'blue',
-            data: this.items[2].valueList
-          },
-          {
-            borderColor: 'green',
-            label: this.items[3].key,
-            backgroundColor: 'green',
-            data: this.items[3].valueList
-          },
-          {
-            borderColor: 'cyan',
-            label: this.items[4].key,
-            backgroundColor: 'cyan',
-            data: this.items[4].valueList
-          },
-          {
-            borderColor: 'brown',
-            label: this.items[5].key,
-            backgroundColor: 'brown',
-            data: this.items[5].valueList
-          },
-          {
-            borderColor: 'magenta',
-            label: this.items[6].key,
-            backgroundColor: 'magenta',
-            data: this.items[6].valueList
-          },
-          {
-            borderColor: 'blueviolet',
-            label: this.items[7].key,
-            backgroundColor: 'blueviolet',
-            data: this.items[7].valueList
-          },
-          {
-            borderColor: 'chartreuse',
-            label: this.items[8].key,
-            backgroundColor: 'chartreuse',
-            data: this.items[8].valueList
-          },
-          {
-            borderColor: 'grey',
-            label: this.items[9].key,
-            backgroundColor: 'grey',
-            data: this.items[9].valueList
-          }
-        ]
+    if (this.items.length > 0 && this.labels.length > 0) {
+      this.chartData =  {
+          labels: this.labels,
+          datasets: [
+            {
+              borderColor: 'red',
+              label: this.items[0].key,
+              backgroundColor: 'red',
+              data: this.items[0].valueList,
+              pointRadius: 0
+            },
+            {
+              borderColor: 'orange',
+              label: this.items[1].key,
+              backgroundColor: 'orange',
+              data: this.items[1].valueList,
+              pointRadius: 0
+            },
+            {
+              borderColor: 'blue',
+              label: this.items[2].key,
+              backgroundColor: 'blue',
+              data: this.items[2].valueList,
+              pointRadius: 0
+            },
+            {
+              borderColor: 'green',
+              label: this.items[3].key,
+              backgroundColor: 'green',
+              data: this.items[3].valueList,
+              pointRadius: 0
+            },
+            {
+              borderColor: 'cyan',
+              label: this.items[4].key,
+              backgroundColor: 'cyan',
+              data: this.items[4].valueList,
+              pointRadius: 0
+            },
+            {
+              borderColor: 'brown',
+              label: this.items[5].key,
+              backgroundColor: 'brown',
+              data: this.items[5].valueList,
+              pointRadius: 0
+            },
+            {
+              borderColor: 'magenta',
+              label: this.items[6].key,
+              backgroundColor: 'magenta',
+              data: this.items[6].valueList,
+              pointRadius: 0
+            },
+            {
+              borderColor: 'blueviolet',
+              label: this.items[7].key,
+              backgroundColor: 'blueviolet',
+              data: this.items[7].valueList,
+              pointRadius: 0
+            },
+            {
+              borderColor: 'chartreuse',
+              label: this.items[8].key,
+              backgroundColor: 'chartreuse',
+              data: this.items[8].valueList,
+              pointRadius: 0
+            },
+            {
+              borderColor: 'grey',
+              label: this.items[9].key,
+              backgroundColor: 'grey',
+              data: this.items[9].valueList,
+              pointRadius: 0
+            }
+          ]
       }
-    
-    
+    }
+
     this.chartOptions = {
         responsive: true,
         maintainAspectRatio: false,
         elements: {
           line: {
             fill: false,
-            borderWidth: 1
+            borderWidth: 1,
+            tension: 0
           }
         },
         title: {
@@ -157,6 +176,11 @@ export default class Statistic extends Vue {
               scaleLabel: {
                 display: true,
                 labelString: 'Value'
+              },
+              gridLines: {
+                display: true,
+                color: 'rgba(255,99,132,0.2)',
+                zeroLineColor: 'rgba(255,99,132,0.5)'
               }
             }
           ],
@@ -166,28 +190,25 @@ export default class Statistic extends Vue {
               scaleLabel: {
                 display: true,
                 labelString: 'Time (seconds)'
+              },
+              gridLines: {
+                display: true,
+                color: 'rgba(255,99,132,0.2)',
+                zeroLineColor: 'rgba(255,99,132,0.5)'
               }
             }
           ]
         }
-      }
+    }
   }
 
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize)
+    EventBus.$off('toggleTheme')
   }
 }
 </script>
 
 <style scoped lang="scss">
-.container {
-  overflow: hidden;
-  background: bisque;
-  margin: 5px;
-}
-@media screen and (max-width: 600px) {
- .container {
-  //  margin:0 1em;
- }
-}
+ @import '@/styles/_statistic.scss';
 </style>

@@ -1,0 +1,171 @@
+.arrow {
+  $size: 25px;
+  $lowSize: $size - 5px;
+  $color: black;
+  transition: all .3s;
+  margin: auto;
+  width: 0; 
+  height: 0; 
+  border-left: $size solid transparent;
+  border-right: $size solid transparent; 
+  &-down {
+    border-top: $lowSize solid $color;
+    animation: down 1s infinite linear alternate;
+  }
+  &-up {
+    border-bottom: $lowSize solid $color;  
+    animation: up 1s infinite linear alternate;
+  }
+  @keyframes up {
+    100% {
+      transform: translateY(-5px);
+    }
+  }
+  @keyframes down {
+    100% {
+      transform: translateY(5px);
+    }
+  }
+}
+
+.btn {
+  $height: 35px;
+  $left: $height - 10px;
+  margin: auto;
+  box-sizing: border-box;
+  width: 0;
+  height: $height;
+  border-style: solid;
+  border-width: $height/2 0 $height/2 $left;
+  border-color: transparent transparent transparent #202020;
+  cursor: pointer;
+  will-change: border-width;
+  transition: all .2s ease;
+  &.paused {
+    border-style: double;
+    border-width: 0px 0 0px $left;
+  }
+  &:hover {
+    border-color: transparent transparent transparent #404040;
+  }
+}
+.dark {
+  .arrow {
+    $size: 25px;
+    $lowSize: $size - 5px;
+    $color: white;
+    &-down {
+      border-top: $lowSize solid $color;
+    }
+    &-up {
+      border-bottom: $lowSize solid $color;
+    }
+  }
+  .btn {
+     border-color: transparent transparent transparent white;
+  }
+  thead {
+    color: white;
+    background: #6c7ae0;
+  }
+  tbody {
+    color: white;
+    
+  }
+  .table-row {
+    background: midnightblue;
+    border-bottom: 1px solid white;
+    &:last-child{
+      border-bottom:none;
+    }
+  }  
+  @media screen and (max-width: 500px) {
+    .arrow {
+      $color: white;
+      $size: 18px;
+      $lowSize: $size - 5px;
+      border-left: $size solid transparent;
+      border-right: $size solid transparent; 
+      &-down {
+        border-top: $lowSize solid $color;
+      }
+      &-up {
+        border-bottom: $lowSize solid $color;  
+      }
+    }
+  }
+}
+.home-wrapper {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 2em;
+  padding-top:1em;
+}
+
+.table-wrapper {
+  border-radius: 10px;
+  overflow: hidden;
+}
+thead {
+  color: white;
+  background: #6c7ae0;
+}
+
+th {
+  width: 100px;
+}
+table,
+th,
+td {
+  border-collapse: collapse;
+}
+th,
+td {
+  padding: 10px;
+}
+.table-row {
+  height: 80px;
+  background: white;
+  border-bottom: 1px solid silver;
+   &:last-child{
+      border-bottom:none;
+   }
+}
+
+td {
+  font-size: 25px;
+}
+
+@media screen and (max-width: 500px) {
+  .home-wrapper {
+    margin: 0 1em 1em 1em;
+  }
+  td {
+    font-size: 18px;
+  }
+  .table-row {
+    height: 49px;
+  }
+  .btn {
+    $height: 25px;
+    $left: $height - 10px;
+    height: $height;
+    border-width: $height/2 0 $height/2 $left;
+    &.paused {
+      border-width: 0px 0 0px $left;
+    }
+  }
+  .arrow {
+    $size: 18px;
+    $lowSize: $size - 5px;
+    border-left: $size solid transparent;
+    border-right: $size solid transparent; 
+    &-down {
+      border-top: $lowSize solid black;
+    }
+    &-up {
+      border-bottom: $lowSize solid black;  
+    }
+  }
+}

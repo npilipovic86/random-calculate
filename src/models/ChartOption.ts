@@ -9,13 +9,14 @@ export interface ChartOption {
 }
 
 interface Scales {
-  yAxes: YAx[];
-  xAxes: YAx[];
+  yAxes: YXAx[];
+  xAxes: YXAx[];
 }
 
-interface YAx {
+interface YXAx {
   display: boolean;
   scaleLabel: ScaleLabel;
+  gridLines: GridLines;
 }
 
 interface ScaleLabel {
@@ -40,4 +41,10 @@ interface Elements {
 interface Line {
   fill: boolean;
   borderWidth: number;
+  tension: number;
+}
+interface GridLines {
+  display: boolean,
+  color: string;
+  zeroLineColor: string;
 }
