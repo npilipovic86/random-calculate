@@ -16,7 +16,3 @@ export default class ThemeToggle extends Vue {
  @Prop({type: String, default: ''}) theme: string
 }
 </script>
-
-<style scoped lang="scss">
- @import '@/styles/_theme-toggle.scss';
-</style>

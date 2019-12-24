@@ -208,7 +208,3 @@ export default class Statistic extends Vue {
   }
 }
 </script>
-
-<style scoped lang="scss">
- @import '@/styles/_statistic.scss';
-</style>

@@ -2,7 +2,6 @@
 import { Line } from 'vue-chartjs'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
-
 @Component({ extends: Line })
 export default class Chart extends Vue {
   @Prop({type: Object, default: null}) data

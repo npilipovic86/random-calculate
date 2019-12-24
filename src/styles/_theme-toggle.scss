@@ -1,8 +1,11 @@
-*, *:before, *:after {
+.switch-wrapper {
   overflow: unset;
-  box-sizing: inherit;
-  margin:0;
-  padding:0;
+  // box-sizing: inherit;
+  // margin:0;
+  // padding:0;
+  * {
+    overflow: unset;
+  }
 }
 
 .rocker {

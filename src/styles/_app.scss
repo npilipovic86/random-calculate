@@ -2,6 +2,8 @@
 
 * {
   overflow: hidden;
+   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   margin: 0;
   padding:0;
   //  font-family: 'Girassol', cursive;
@@ -9,38 +11,17 @@
   box-sizing: border-box;
 }
 .app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   padding-top: 4em;
   width: 100%;
   min-height: 100vh;
   animation: a 50s infinite;
   animation-direction: alternate;
-  -webkit-animation: a 50s infinite;
-  -webkit-animation-direction: alternate;
   transition: background .7 ease-in-out;
 }
 .dark {
-  -webkit-animation: b 50s infinite;
   animation: b 50s infinite;
 }
-@-webkit-keyframes a {
-  0% {
-    background: #9b59b6;
-  }
-  25% {
-    background: #f1c40f;
-  }
-  50% {
-    background: #3498db;
-  }
-  75% {
-    background: #1abc9c;
-  }
-  to {
-    background: #9b59b6;
-  }
-}
+
 @keyframes a {
   0% {
     background: #9b59b6;
@@ -58,23 +39,7 @@
     background: #9b59b6;
   }
 }
-@-webkit-keyframes b {
-  0% {
-    background: #570677;
-  }
-  25% {
-    background: #b6940bc5;
-  }
-  50% {
-    background: #045e99;
-  }
-  75% {
-    background: #02614e;
-  }
-  to {
-    background: #570677;
-  }
-}
+
 @keyframes b {
   0% {
     background: #570677;
@@ -102,17 +67,17 @@
   bottom: 0;
   right: 0;
 }
-
-.fade-enter-active,
-.fade-leave-active {
-  transition-duration: .5s;
-  transition-property: opacity;
-  transition-timing-function: ease;
-}
-
-.fade-enter,
-.fade-leave-active {
-  opacity: 0;
+.fade {
+  &-enter-active , 
+  &-leave-active {
+    transition-duration: .5s;
+    transition-property: opacity;
+    transition-timing-function: ease;
+  }
+  &-enter, 
+  &-leave-active {
+    opacity: 0;
+  }
 }
 
 @media screen and (max-height: 930px) {

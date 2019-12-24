@@ -14,17 +14,17 @@
         title="Github">
         <img src="@/assets/github.svg" alt="" />
       </a>
-       <a class="nav-link" @click="reset()" >
+      <a class="nav-link" @click="reset()" >
         <img src="@/assets/reset.svg" data-toggle="tooltip" title="Reset values" alt="" />
       </a>
-     </nav>
-      <ThemeToggle :theme="theme" @toggleTheme="$emit('toggleTheme')" data-toggle="tooltip" title="Toggle theme" />
+    </nav>
+    <ThemeToggle :theme="theme" @toggleTheme="$emit('toggleTheme')" data-toggle="tooltip" title="Toggle theme" />
   </header>
 </template>
 
 <script lang="ts">
-import { EventBus } from '@/services/EventBus'
 import { Component, Vue, Prop } from 'vue-property-decorator'
+import { EventBus } from '@/services/EventBus'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 
 @Component({
@@ -53,7 +53,3 @@ export default class Header extends Vue {
   }
 }
 </script>
-
-<style scoped lang="scss">
- @import '@/styles/_header.scss';
-</style>

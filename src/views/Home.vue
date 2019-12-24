@@ -94,10 +94,10 @@ export default class Home extends Vue {
     this.items[index].active = !this.items[index].active
   }
 
-  getRandomInteger(min: number, max: number): number {
+  getRandomInteger(min: number, max: number, exclude: number): number {
     const randomNumber: number = Math.round(Math.random() * (max - min) + min)
-    if (randomNumber === 0) {
-      return this.getRandomInteger(-2, 2)
+    if (randomNumber === exclude) {
+       return this.getRandomInteger(min, max, exclude)
     }
     return randomNumber
   }
@@ -106,7 +106,7 @@ export default class Home extends Vue {
     this.interval.push(this.interval[this.interval.length - 1] + 2)
     array.map((item) => {
       if (item.active) {
-        const num: number = this.getRandomInteger(-2, 2)
+        const num: number = this.getRandomInteger(-2, 2, 0)
         item.value += num
         item.operation = Math.sign(num) === 1 ? '+' : '-'
         item.valueList.push(item.value)
@@ -114,18 +114,14 @@ export default class Home extends Vue {
         item.valueList.push(item.value)
       }
       return item
-    });
+    })
     localStorage.setItem('items', JSON.stringify(array))
     localStorage.setItem('interval', JSON.stringify(this.interval))
   }
 
   beforeDestroy() {
     clearInterval(this.timer)
-    EventBus.$off()
+    EventBus.$off('reset')
   }
 }
 </script>
-
-<style scoped lang="scss">
- @import '@/styles/_home.scss';
-</style>
