@@ -118,7 +118,6 @@
       .arrow {
         $size: 25px;
         $lowSize: $size - 5px;
-        // $color: white !important;
         &-down {
           border-top: $lowSize solid ;
         }
@@ -130,7 +129,6 @@
   }
   @media screen and (max-width: 500px) {
     .arrow {
-      // $color: white;
       $size: 18px;
       $lowSize: $size - 5px;
       border-left: $size solid transparent;
@@ -139,7 +137,7 @@
       &-down {
         border-top: $lowSize solid;
       }
-      
+
       &-up {
         border-bottom: $lowSize solid;  
       }
@@ -189,6 +187,5 @@
       }
     }
   }
-
 
 }
