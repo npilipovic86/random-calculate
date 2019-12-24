@@ -1,6 +1,6 @@
 # Random calculate
 ###### Vue.js (TypesScript)
-## [DEMO](https://random-calculate.herokuapp.com/)
+## [DEMO](https://random-calculate.herokuapp.com/?target=_blank)
 
 ## Project setup
 ```
