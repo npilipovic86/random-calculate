@@ -70,12 +70,12 @@
 .fade {
   &-enter-active , 
   &-leave-active {
-    transition-duration: .5s;
+    transition-duration: .7s;
     transition-property: opacity;
     transition-timing-function: ease;
   }
   &-enter, 
-  &-leave-active {
+  &-leave-to {
     opacity: 0;
   }
 }

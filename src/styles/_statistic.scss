@@ -1,3 +1,10 @@
 .statistic-wrapper {
   margin: 5px;
 }
+.chart {
+// animation: fadein 1s;
+}
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}

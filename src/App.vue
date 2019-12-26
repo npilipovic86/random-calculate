@@ -2,8 +2,8 @@
   <div class="app" :class="theme">
     <Header :theme="theme" v-if="!loading" @toggleTheme="toggleTheme" />
     <Socket class="loader" v-if="loading" size="60" />
-    <transition name="fade" theme="out-in" v-if="!loading">
-        <router-view ></router-view>
+    <transition name="fade"   >
+        <router-view v-if="!loading"></router-view>
     </transition>
   </div>
 </template>

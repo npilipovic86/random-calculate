@@ -1,8 +1,9 @@
 <template>
   <div class="statistic-wrapper" :style="[ (theme === 'dark') ? {  background: '#0b1055' } : { background: 'bisque' } ]">
-    <Chart
+    
+    <Chart class="chart"
       :key="componentKey"
-      v-if="items.length > 0 && labels.length > 0"
+      v-if="items.length > 0 && labels.length > 0 && !chartLoad"
       :data="chartData"
       :options="chartOptions"
       :height="height"
@@ -14,15 +15,14 @@
 import Chart from '@/components/Chart.vue'
 import { Item } from '@/models/Item'
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import Socket from 'vue-loading-spinner/src/components/Socket'
 import { ChartData } from '@/models/ChartData'
 import { ChartOption } from '@/models/ChartOption'
 import { EventBus } from '@/services/EventBus'
 
+
 @Component({
   components: {
-    Chart,
-    Socket
+    Chart
   }
 })
 export default class Statistic extends Vue {
@@ -33,6 +33,7 @@ export default class Statistic extends Vue {
   private chartData: ChartData
   private chartOptions: ChartOption
   private theme: string
+  private chartLoad: boolean
 
   constructor() {
     super()
@@ -41,6 +42,7 @@ export default class Statistic extends Vue {
     this.height = 0
     this.componentKey = 0
     this.theme = 'dark'
+    this.chartLoad = true
   }
 
   created() {
@@ -51,6 +53,7 @@ export default class Statistic extends Vue {
   mounted() {
     EventBus.$on('toggleTheme', (theme: string) =>  this.theme = theme)
     this.theme = localStorage.getItem('theme') || 'dark'
+    setTimeout(() => { this.chartLoad = false }, 1000)
   }
 
   @Watch('height', { immediate: true })
@@ -72,78 +75,19 @@ export default class Statistic extends Vue {
     if (this.items.length > 0 && this.labels.length > 0) {
       this.chartData =  {
           labels: this.labels,
-          datasets: [
-            {
-              borderColor: 'red',
-              label: this.items[0].key,
-              backgroundColor: 'red',
-              data: this.items[0].valueList,
-              pointRadius: 0
-            },
-            {
-              borderColor: 'orange',
-              label: this.items[1].key,
-              backgroundColor: 'orange',
-              data: this.items[1].valueList,
-              pointRadius: 0
-            },
-            {
-              borderColor: 'blue',
-              label: this.items[2].key,
-              backgroundColor: 'blue',
-              data: this.items[2].valueList,
-              pointRadius: 0
-            },
-            {
-              borderColor: 'green',
-              label: this.items[3].key,
-              backgroundColor: 'green',
-              data: this.items[3].valueList,
-              pointRadius: 0
-            },
-            {
-              borderColor: 'cyan',
-              label: this.items[4].key,
-              backgroundColor: 'cyan',
-              data: this.items[4].valueList,
-              pointRadius: 0
-            },
-            {
-              borderColor: 'brown',
-              label: this.items[5].key,
-              backgroundColor: 'brown',
-              data: this.items[5].valueList,
-              pointRadius: 0
-            },
-            {
-              borderColor: 'magenta',
-              label: this.items[6].key,
-              backgroundColor: 'magenta',
-              data: this.items[6].valueList,
-              pointRadius: 0
-            },
-            {
-              borderColor: 'blueviolet',
-              label: this.items[7].key,
-              backgroundColor: 'blueviolet',
-              data: this.items[7].valueList,
-              pointRadius: 0
-            },
-            {
-              borderColor: 'chartreuse',
-              label: this.items[8].key,
-              backgroundColor: 'chartreuse',
-              data: this.items[8].valueList,
-              pointRadius: 0
-            },
-            {
-              borderColor: 'grey',
-              label: this.items[9].key,
-              backgroundColor: 'grey',
-              data: this.items[9].valueList,
-              pointRadius: 0
-            }
-          ]
+          datasets: []
+      }
+
+      const colors = ['red', 'purple',  'blue', 'green', 'cyan', 'brown', 'magenta', 'blueviolet', 'grey', 'chartreuse']
+
+      for (let i = 0; i < 10; i++) {
+        this.chartData.datasets.push({
+            borderColor: colors[i],
+            label: this.items[i].key,
+            backgroundColor: colors[i],
+            data: this.items[i].valueList,
+            pointRadius: 0
+        })
       }
     }
 
@@ -199,6 +143,7 @@ export default class Statistic extends Vue {
             }
           ]
         }
+
     }
   }
 
