@@ -5,7 +5,7 @@ import VuexPersist from 'vuex-persist'
 Vue.use(Vuex)
 
 const vuexPersist = new VuexPersist({
-  key: 'random-calculate',
+  key: 'RANDOM_CALCULATE',
   storage: window.localStorage
 })
 

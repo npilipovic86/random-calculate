@@ -24,7 +24,6 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import { EventBus } from '@/services/EventBus'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 
 @Component({
@@ -35,10 +34,6 @@ import ThemeToggle from '@/components/ThemeToggle.vue'
 export default class Header extends Vue {
   @Prop({type: String, default: ''}) theme: string
   private $dialog: any
-
-  constructor() {
-    super()
-  }
 
   reset() {
     this.$dialog.confirm('Do you want to reset values ?')

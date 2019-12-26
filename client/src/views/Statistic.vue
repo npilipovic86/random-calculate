@@ -60,8 +60,8 @@ export default class Statistic extends Vue {
   }
 
   init() {
-    const items = this.$store.getters.items
-    const labels = this.$store.getters.interval
+    const items: Item[] = this.$store.getters.items
+    const labels: number[] = this.$store.getters.interval
     if (items.length > 0 && labels.length > 0) {
       this.chartData =  {
           labels,

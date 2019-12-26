@@ -4,8 +4,9 @@
     overflow: unset;
   }
 
-  .rocker {
-    font-size: 2em;
+  .switcher {
+    font-size: 0.7em;
+    margin: 0 7px;
     display: inline-block;
     position: relative;
     font-weight: bold;
@@ -16,11 +17,6 @@
     height: 4em;
     overflow: hidden;
     border-bottom: 0.5em solid #eee;
-
-    &-small {
-      font-size: 0.7em;
-      margin: 0 7px;
-    }
 
     &::before {
       content: "";

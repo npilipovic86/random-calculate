@@ -1,0 +1,16 @@
+{
+  "name": "random-calculate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "deploy": "git add . && git commit -am 'init' && git push heroku master",
+    "start": "node server.js"
+  },
+  "author": "Nikola Pilipovic",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "serve-static": "^1.14.1"
+  }
+}
