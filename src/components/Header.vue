@@ -43,9 +43,8 @@ export default class Header extends Vue {
   reset() {
     this.$dialog.confirm('Do you want to reset values ?')
       .then(() => {
-        localStorage.removeItem('items')
-        localStorage.removeItem('interval')
-        this.$route.name === 'statistic' ? this.$router.push('/').then() : EventBus.$emit('reset')
+        this.$store.dispatch('resetValues')
+        if (this.$route.name === 'statistic') {  this.$router.push('/').then() }
       })
       .catch(() => {
         console.log('cancel')

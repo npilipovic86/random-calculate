@@ -1,8 +1,8 @@
 <template>
-  <div class="app" :class="theme">
-    <Header :theme="theme" v-if="!loading" @toggleTheme="toggleTheme" />
-    <Socket class="loader" v-if="loading" size="60" />
-    <transition name="fade"   >
+  <div class="app" :class="$store.getters.theme">
+    <Header :theme="$store.getters.theme" v-show="!loading" @toggleTheme="toggleTheme" />
+    <Socket class="loader" v-show="loading" size="60" />
+    <transition name="slide" mode="out-in" >
         <router-view v-if="!loading"></router-view>
     </transition>
   </div>
@@ -14,9 +14,10 @@ import Home from '@/views/Home.vue'
 import Statistic from '@/views/Statistic.vue'
 import Header from '@/components/Header.vue'
 import Socket from 'vue-loading-spinner/src/components/Socket'
-import { EventBus } from '@/services/EventBus'
+import { store } from '@/store/index'
 
 @Component({
+  store,
   components: {
     Home,
     Statistic,
@@ -26,19 +27,15 @@ import { EventBus } from '@/services/EventBus'
 })
 export default class App extends Vue {
   private loading: boolean
-  private theme: string
-
 
   constructor() {
     super()
     this.loading = true
-    this.theme = 'dark'
   }
 
   mounted() {
     this.loader()
     window.addEventListener('keyup', this.keyPress)
-    this.theme = localStorage.getItem('theme') || 'dark'
   }
   keyPress(e: KeyboardEvent) {
     if (e.key === 't') {
@@ -46,9 +43,9 @@ export default class App extends Vue {
     }
   }
   toggleTheme() {
-    this.theme === 'dark' ?  this.theme = 'light' : this.theme = 'dark'
-    EventBus.$emit('toggleTheme', this.theme)
-    localStorage.setItem('theme', this.theme)
+    let theme: string = ''
+    this.$store.getters.theme === 'dark' ?  theme = 'light' : theme = 'dark'
+    this.$store.dispatch('setTheme', theme)
   }
   loader() {
     setTimeout(() => {

@@ -6,7 +6,6 @@
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
   padding:0;
-  //  font-family: 'Girassol', cursive;
   font-family: 'Kalam', cursive;
   box-sizing: border-box;
 }
@@ -67,16 +66,18 @@
   bottom: 0;
   right: 0;
 }
-.fade {
+
+
+.slide {
   &-enter-active , 
   &-leave-active {
-    transition-duration: .7s;
-    transition-property: opacity;
-    transition-timing-function: ease;
+    transition: transform .7s ease-out;
   }
-  &-enter, 
+  &-enter {
+     transform: translateX(-30%);
+  }
   &-leave-to {
-    opacity: 0;
+     transform: translateX(30%);
   }
 }
 

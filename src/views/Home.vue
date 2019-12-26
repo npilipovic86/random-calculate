@@ -11,7 +11,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="table-row" v-for="(item, index) in items" :key="index">
+          <tr class="table-row" v-for="(item, index) in $store.getters.items" :key="index">
             <td>{{ item.key }}</td>
             <td class="value">{{ item.value }}</td>
             <td>
@@ -32,7 +32,6 @@
 
 <script lang="ts">
 import { Item } from '@/models/Item'
-import { EventBus } from '@/services/EventBus'
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component
@@ -44,54 +43,14 @@ export default class Home extends Vue {
   constructor() {
     super()
     this.timer = 0
-    this.interval = [0]
-    this.items = [
-      { key: 'a', value: 3, active: true, operation: '', valueList: [3] },
-      { key: 'b', value: 3, active: true, operation: '', valueList: [3] },
-      { key: 'c', value: 3, active: true, operation: '', valueList: [3] },
-      { key: 'd', value: 3, active: true, operation: '', valueList: [3] },
-      { key: 'e', value: 3, active: true, operation: '', valueList: [3] },
-      { key: 'f', value: 3, active: true, operation: '', valueList: [3] },
-      { key: 'g', value: 3, active: true, operation: '', valueList: [3] },
-      { key: 'h', value: 3, active: true, operation: '', valueList: [3] },
-      { key: 'i', value: 3, active: true, operation: '', valueList: [3] },
-      { key: 'j', value: 3, active: true, operation: '', valueList: [3] }
-    ]
   }
 
   mounted() {
-    EventBus.$on('reset', () => this.reset())
-    this.init()
-    this.timer = setInterval(() => this.updateValue(this.items), 2000)
-  }
-
-  reset() {
-    this.interval = [0]
-    this.items = [
-      { key: 'a', value: 3, active: true, operation: '', valueList: [3] },
-      { key: 'b', value: 3, active: true, operation: '', valueList: [3] },
-      { key: 'c', value: 3, active: true, operation: '', valueList: [3] },
-      { key: 'd', value: 3, active: true, operation: '', valueList: [3] },
-      { key: 'e', value: 3, active: true, operation: '', valueList: [3] },
-      { key: 'f', value: 3, active: true, operation: '', valueList: [3] },
-      { key: 'g', value: 3, active: true, operation: '', valueList: [3] },
-      { key: 'h', value: 3, active: true, operation: '', valueList: [3] },
-      { key: 'i', value: 3, active: true, operation: '', valueList: [3] },
-      { key: 'j', value: 3, active: true, operation: '', valueList: [3] }
-    ]
-  }
-
-  init(): void {
-    const itemsList: Item[] = JSON.parse(localStorage.getItem('items')) || []
-    const intervalList: number[] = JSON.parse(localStorage.getItem('interval')) || []
-    if (itemsList.length > 0 && intervalList.length > 0) {
-      this.items = itemsList
-      this.interval = intervalList
-    }
+    this.timer = setInterval(() => this.updateValue(this.$store.getters.items), 2000)
   }
 
   toggleActive(index: number): void {
-    this.items[index].active = !this.items[index].active
+    this.$store.dispatch('toggleActive', index)
   }
 
   getRandomInteger(min: number, max: number, exclude: number): number {
@@ -103,7 +62,6 @@ export default class Home extends Vue {
   }
 
   updateValue(array: Item[]): void {
-    this.interval.push(this.interval[this.interval.length - 1] + 2)
     array.map((item) => {
       if (item.active) {
         const num: number = this.getRandomInteger(-2, 2, 0)
@@ -115,13 +73,12 @@ export default class Home extends Vue {
       }
       return item
     })
-    localStorage.setItem('items', JSON.stringify(array))
-    localStorage.setItem('interval', JSON.stringify(this.interval))
+    this.$store.dispatch('updateItems', array)
+    this.$store.dispatch('addInterval')
   }
 
   beforeDestroy() {
     clearInterval(this.timer)
-    EventBus.$off('reset')
   }
 }
 </script>

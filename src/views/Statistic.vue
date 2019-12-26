@@ -1,9 +1,8 @@
 <template>
-  <div class="statistic-wrapper" :style="[ (theme === 'dark') ? {  background: '#0b1055' } : { background: 'bisque' } ]">
-    
+  <div class="statistic-wrapper" :style="[ ($store.getters.theme === 'dark') ? {  background: '#0b1055' } : { background: 'bisque' } ]">
     <Chart class="chart"
       :key="componentKey"
-      v-if="items.length > 0 && labels.length > 0 && !chartLoad"
+      v-if="!chartLoad"
       :data="chartData"
       :options="chartOptions"
       :height="height"
@@ -17,7 +16,6 @@ import { Item } from '@/models/Item'
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { ChartData } from '@/models/ChartData'
 import { ChartOption } from '@/models/ChartOption'
-import { EventBus } from '@/services/EventBus'
 
 
 @Component({
@@ -26,23 +24,17 @@ import { EventBus } from '@/services/EventBus'
   }
 })
 export default class Statistic extends Vue {
-  private items: Item[]
-  private labels: number[]
   private height: number
   private componentKey: number
   private chartData: ChartData
   private chartOptions: ChartOption
-  private theme: string
   private chartLoad: boolean
 
   constructor() {
     super()
-    this.labels = []
-    this.items = []
     this.height = 0
     this.componentKey = 0
-    this.theme = 'dark'
-    this.chartLoad = true
+    this.chartLoad = false
   }
 
   created() {
@@ -51,9 +43,7 @@ export default class Statistic extends Vue {
     window.addEventListener('resize', this.handleResize)
   }
   mounted() {
-    EventBus.$on('toggleTheme', (theme: string) =>  this.theme = theme)
-    this.theme = localStorage.getItem('theme') || 'dark'
-    setTimeout(() => { this.chartLoad = false }, 1000)
+    // setTimeout(() => { this.chartLoad = true }, 1000)
   }
 
   @Watch('height', { immediate: true })
@@ -70,11 +60,11 @@ export default class Statistic extends Vue {
   }
 
   init() {
-    this.items = JSON.parse(localStorage.getItem('items')) || []
-    this.labels = JSON.parse(localStorage.getItem('interval')) || []
-    if (this.items.length > 0 && this.labels.length > 0) {
+    const items = this.$store.getters.items
+    const labels = this.$store.getters.interval
+    if (items.length > 0 && labels.length > 0) {
       this.chartData =  {
-          labels: this.labels,
+          labels,
           datasets: []
       }
 
@@ -83,9 +73,9 @@ export default class Statistic extends Vue {
       for (let i = 0; i < 10; i++) {
         this.chartData.datasets.push({
             borderColor: colors[i],
-            label: this.items[i].key,
+            label: items[i].key,
             backgroundColor: colors[i],
-            data: this.items[i].valueList,
+            data: items[i].valueList,
             pointRadius: 0
         })
       }
@@ -149,7 +139,6 @@ export default class Statistic extends Vue {
 
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize)
-    EventBus.$off('toggleTheme')
   }
 }
 </script>
